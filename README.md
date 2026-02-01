@@ -1,150 +1,187 @@
-# AI Map Agent
+# AI Map Agent  
 
-##  Overview
+# Overview
+
+The AI Map Agent enables users to ask natural language spatial questions such as:
+
+> “Find 5 hospitals within 2km of Potsdamer Platz.”
+
+The system parses intent using an LLM, delegates execution to structured tools via MCP, performs deterministic geospatial processing, and renders results in an interactive Streamlit interface.
 
 ---
 
+# System Architecture
 
-##  System Architecture
+The system strictly separates reasoning from execution.
 
-The system separates reasoning from execution.
-
-User Query ->
-  LLM ->
-MCP Tool Layer ->
-Geospatial Processing ->
+```
+User Query 
+    ↓
+LLM (Intent → Structured Plan)
+    ↓
+MCP Tool Layer
+    ↓
+Geospatial Processing
+    ↓
 Streamlit Map Interface
+```
+
+### Design Principle
+
+The LLM does **not** perform geospatial computation.  
+It only extracts structured parameters.  
+All spatial logic is deterministic and tool-driven.
+
+This prevents hallucination and ensures execution correctness.
+
 ---
 
-##  Core Components
-  
-### 1 LLM Reasoning Layer
+# Core Components
 
-The LLM is responsible for extracting:
+## 1️⃣ LLM Reasoning Layer
 
-* layer_type
+Responsible for extracting:
 
-* location
+- `layer_type`
+- `location`
+- `radius_km`
 
-* radius_km
+And constructing structured tool calls.
 
-* Constructing structured tool calls
+The model:
+- Does not calculate distances
+- Does not query OSM directly
+- Does not generate spatial geometry
 
-The model does not perform geospatial computation directly.
+This enforces strict reasoning-execution separation.
 
-This prevents hallucination and enforces execution correctness.
+---
 
-### 2 MCP Tool Server
+## 2️⃣ MCP Tool Server
 
-The project exposes geospatial tools via MCP:
+Geospatial tools are exposed via **FastMCP**:
 
-* geocode_address_tool
-
-* buffer_point_tool
-
-* retrieve_geodata_layer_tool
+- `geocode_address_tool`
+- `buffer_point_tool`
+- `retrieve_geodata_layer_tool`
 
 Each tool:
 
-* Has a defined schema
+- Has a defined schema
+- Is independently testable
+- Returns structured outputs
+- Can be reused across agents
+- Runs over stdio via MCP
 
-* Is independently testable
+This mirrors production-grade AI orchestration systems.
 
-* Returns structured outputs
+---
 
-* Can be reused across agents
+## 3️⃣ Geospatial Pipeline
 
-This design mirrors real-world AI agent orchestration systems.
+Deterministic spatial processing:
 
-### 3 Geospatial Pipeline
-
+```
 Address → Coordinates
-
 Coordinates → Buffer (GeoJSON Polygon)
-
 Polygon → Bounding Box
-
 Bounding Box → OSM Feature Query
+```
 
-Spatial logic is deterministic and separated from the LLM.
+Key characteristics:
 
-### 4 Frontend (Streamlit)
+- No LLM in execution loop
+- GeoJSON-compliant outputs
+- Spatial operations isolated from reasoning
+
+---
+
+## 4️⃣ Frontend (Streamlit)
 
 Features:
 
-* Interactive natural language input
+- Natural language input
+- Interactive map rendering via Folium
+- Adjustable result slider
+- Polygon visualization
+- Agent step debug panel
+- Structured execution trace visibility
 
-* Map rendering via Folium
-
-* Debug visibility (agent steps)
-
-* Polygon visualization
-
----
-
-
-## Technologies
-
-* Python 
-
-* Streamlit
-
-* OpenAI API (LLM orchestration)
-
-* Mapbox API (map tiles)
-
-* OpenStreetMap (geodata source)
-
-* FastMCP (tool server framework)
-
-* Folium (map visualization)
-
-* GeoJSON
+This ensures transparency and explainability.
 
 ---
 
+# Technologies
 
-## Data Sources
-  
+- Python 3.11
+- Streamlit
+- OpenAI API (LLM orchestration)
+- Mapbox API (map tiles)
+- OpenStreetMap (geodata source)
+- FastMCP (tool server framework)
+- Folium (map visualization)
+- GeoJSON
+
+---
+
+# Data Sources
+
 | Source | Purpose |
 |--------|---------|
-| OpenStreetMap | Geospatial features |
+| OpenStreetMap | Geospatial feature retrieval |
 | OpenAI API | Natural language parsing |
-| Mapbox | Interactive tiles |
+| Mapbox | Interactive map tiles |
 
 ---
 
-##  Challenges & Solutions
+# Example Workflow
+
+### Input
+
+> “Find 5 hospitals within 2km of Potsdamer Platz.”
+
+### Execution
+
+1. LLM parses:
+   - `layer_type`: hospital  
+   - `radius_km`: 2  
+   - `location`: Potsdamer Platz  
+
+2. Geocode → Coordinates  
+3. Buffer → GeoJSON polygon  
+4. Bounding box → OSM query  
+5. Render interactive map  
 
 ---
 
-##  Example Workflow
+# Challenges & Solutions
 
-Input:
-
-“Find 5 hospitals within 2km of Potsdamer Platz.”
-
-Execution:
-
-LLM parses:
-
-layer_type: hospital
-
-radius_km: 2
-
-location: Potsdamer Platz
-
-Geocode → Coordinates
-
-Buffer → GeoJSON polygon
-
-Bounding box → OSM query
-
-Render interactive map
+### 1️⃣ LLM Hallucination Risk  
+**Solution:**  
+Strict separation between reasoning and execution.  
+The LLM only extracts structured parameters.
 
 ---
 
-## Installation
+### 2️⃣ MCP stdio Session Stability  
+**Solution:**  
+Custom LocalMCPClient with explicit event loop handling and controlled lifecycle management.
+
+---
+
+### 3️⃣ OSM Query Performance  
+**Solution:**  
+Bounding box filtering instead of full polygon spatial intersection.
+
+---
+
+### 4️⃣ API Key Security  
+**Solution:**  
+Environment-based configuration via `.env` and exclusion from Git tracking.
+
+---
+
+# Installation
 
 ```bash
 git clone https://github.com/Ktantawy12/ai-map-app.git
@@ -156,7 +193,7 @@ pip install -r requirements.txt
 
 ---
 
-##  Environment Variables
+# Environment Variables
 
 Create a `.env` file:
 
@@ -167,7 +204,7 @@ MAPBOX_API_KEY=your_key
 
 ---
 
-## ▶ Run
+# Run
 
 ```bash
 streamlit run app/main.py
@@ -175,12 +212,34 @@ streamlit run app/main.py
 
 ---
 
-## Author
+# Repository Structure
 
-Karim Tantawy
-AI & Data Engineer
+```
+app/
+    agent.py
+    main.py
+    tools/
+    mcp_local/
+data/
+static/
+requirements.txt
+```
+
+---
+
+# Future Improvements
+
+- Polygon-level spatial filtering (instead of bbox)
+- Async MCP execution
+- Multi-layer queries
+- Caching for repeated geocode queries
+- Docker deployment
+- Cloud hosting (Streamlit Cloud / Render)
+
+---
+
+# Author
+
+Karim Tantawy  
+AI & Data Engineer  
 Berlin / Egypt
-
-
-
-
