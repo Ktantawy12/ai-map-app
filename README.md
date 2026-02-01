@@ -1,6 +1,6 @@
 # AI Map Agent  
 
-# Overview
+## Overview
 
 The AI Map Agent enables users to ask natural language spatial questions such as:
 
@@ -10,7 +10,7 @@ The system parses intent using an LLM, delegates execution to structured tools v
 
 ---
 
-# System Architecture
+## System Architecture
 
 The system strictly separates reasoning from execution.
 
@@ -36,9 +36,9 @@ This prevents hallucination and ensures execution correctness.
 
 ---
 
-# Core Components
+## Core Components
 
-## 1️⃣ LLM Reasoning Layer
+### 1) LLM Reasoning Layer
 
 Responsible for extracting:
 
@@ -57,7 +57,7 @@ This enforces strict reasoning-execution separation.
 
 ---
 
-## 2️⃣ MCP Tool Server
+### 2) MCP Tool Server
 
 Geospatial tools are exposed via **FastMCP**:
 
@@ -77,7 +77,7 @@ This mirrors production-grade AI orchestration systems.
 
 ---
 
-## 3️⃣ Geospatial Pipeline
+### 3) Geospatial Pipeline
 
 Deterministic spatial processing:
 
@@ -96,7 +96,7 @@ Key characteristics:
 
 ---
 
-## 4️⃣ Frontend (Streamlit)
+### 4) Frontend (Streamlit)
 
 Features:
 
@@ -111,7 +111,7 @@ This ensures transparency and explainability.
 
 ---
 
-# Technologies
+## Technologies
 
 - Python 3.11
 - Streamlit
@@ -124,7 +124,7 @@ This ensures transparency and explainability.
 
 ---
 
-# Data Sources
+## Data Sources
 
 | Source | Purpose |
 |--------|---------|
@@ -134,11 +134,11 @@ This ensures transparency and explainability.
 
 ---
 
-# Example Workflow
+## Example Workflow
 
 ### Input
 
-> “Find 5 hospitals within 2km of Potsdamer Platz.”
+> “Find hospitals within 2km of Potsdamer Platz.”
 
 ### Execution
 
@@ -154,34 +154,22 @@ This ensures transparency and explainability.
 
 ---
 
-# Challenges & Solutions
+## Challenges & Solutions
 
-### 1️⃣ LLM Hallucination Risk  
+### 1) LLM Hallucination Risk  
 **Solution:**  
 Strict separation between reasoning and execution.  
 The LLM only extracts structured parameters.
 
 ---
 
-### 2️⃣ MCP stdio Session Stability  
-**Solution:**  
-Custom LocalMCPClient with explicit event loop handling and controlled lifecycle management.
-
----
-
-### 3️⃣ OSM Query Performance  
-**Solution:**  
-Bounding box filtering instead of full polygon spatial intersection.
-
----
-
-### 4️⃣ API Key Security  
+### 4) API Key Security  
 **Solution:**  
 Environment-based configuration via `.env` and exclusion from Git tracking.
 
 ---
 
-# Installation
+## Installation
 
 ```bash
 git clone https://github.com/Ktantawy12/ai-map-app.git
@@ -193,7 +181,7 @@ pip install -r requirements.txt
 
 ---
 
-# Environment Variables
+## Environment Variables
 
 Create a `.env` file:
 
@@ -204,7 +192,7 @@ MAPBOX_API_KEY=your_key
 
 ---
 
-# Run
+## Run
 
 ```bash
 streamlit run app/main.py
@@ -212,34 +200,10 @@ streamlit run app/main.py
 
 ---
 
-# Repository Structure
-
-```
-app/
-    agent.py
-    main.py
-    tools/
-    mcp_local/
-data/
-static/
-requirements.txt
-```
-
----
-
-# Future Improvements
-
-- Polygon-level spatial filtering (instead of bbox)
-- Async MCP execution
-- Multi-layer queries
-- Caching for repeated geocode queries
-- Docker deployment
-- Cloud hosting (Streamlit Cloud / Render)
-
----
 
 # Author
 
 Karim Tantawy  
 AI & Data Engineer  
 Berlin / Egypt
+
