@@ -9,6 +9,9 @@ The AI Map Agent enables users to ask natural language spatial questions such as
 The system parses intent using an LLM, delegates execution to structured tools via MCP, performs deterministic geospatial processing, and renders results in an interactive Streamlit interface.
 
 ---
+## Demo Video
+
+---
 
 ## System Architecture
 
@@ -17,7 +20,7 @@ The system strictly separates reasoning from execution.
 ```
 User Query 
     ↓
-LLM (Intent → Structured Plan)
+LLM 
     ↓
 MCP Tool Layer
     ↓
@@ -111,7 +114,7 @@ This ensures transparency and explainability.
 
 ---
 
-## Technologies
+## Technologies Used
 
 - Python 3.11
 - Streamlit
@@ -130,7 +133,7 @@ This ensures transparency and explainability.
 |--------|---------|
 | OpenStreetMap | Geospatial feature retrieval |
 | OpenAI API | Natural language parsing |
-| Mapbox | Interactive map tiles |
+| Mapbox | Geocoding |
 
 ---
 
@@ -201,9 +204,10 @@ streamlit run app/main.py
 ---
 
 
-# Author
+## Author
 
 Karim Tantawy  
 AI & Data Engineer  
-Berlin / Egypt
+
+
 
