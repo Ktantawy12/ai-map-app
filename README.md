@@ -1,10 +1,11 @@
 # AI Map Agent
 
-## * Overview
+##  Overview
 
-  
+---
 
-## * System Architecture
+
+##  System Architecture
 
 The system separates reasoning from execution.
 
@@ -13,23 +14,21 @@ User Query ->
 MCP Tool Layer ->
 Geospatial Processing ->
 Streamlit Map Interface
+---
 
-
-## * Core Components
+##  Core Components
   
 ### 1 LLM Reasoning Layer
 
 The LLM is responsible for extracting:
 
-layer_type
+* layer_type
 
-location
+* location
 
-radius_km
+* radius_km
 
-result_limit
-
-Constructing structured tool calls
+* Constructing structured tool calls
 
 The model does not perform geospatial computation directly.
 
@@ -39,21 +38,21 @@ This prevents hallucination and enforces execution correctness.
 
 The project exposes geospatial tools via MCP:
 
-geocode_address_tool
+* geocode_address_tool
 
-buffer_point_tool
+* buffer_point_tool
 
-retrieve_geodata_layer_tool
+* retrieve_geodata_layer_tool
 
 Each tool:
 
-Has a defined schema
+* Has a defined schema
 
-Is independently testable
+* Is independently testable
 
-Returns structured outputs
+* Returns structured outputs
 
-Can be reused across agents
+* Can be reused across agents
 
 This design mirrors real-world AI agent orchestration systems.
 
@@ -73,17 +72,18 @@ Spatial logic is deterministic and separated from the LLM.
 
 Features:
 
-Interactive natural language input
+* Interactive natural language input
+
+* Map rendering via Folium
+
+* Debug visibility (agent steps)
+
+* Polygon visualization
+
+---
 
 
-Map rendering via Folium
-
-Debug visibility (agent steps)
-
-Polygon visualization
-
-
-## * Technologies
+## Technologies
 
 Python 
 
@@ -101,18 +101,23 @@ Folium (map visualization)
 
 GeoJSON
 
+---
 
 
-## * Data Sources
+## Data Sources
   
 Source	           Purpose
 OpenStreetMap	  Geospatial features
 OpenAI API	     Natural language parsing & planning
 Mapbox	           Interactive map tiles
 
-## * Challenges & Solutions
+---
 
-## * Example Workflow
+##  Challenges & Solutions
+
+---
+
+##  Example Workflow
 
 Input:
 
@@ -136,7 +141,9 @@ Bounding box → OSM query
 
 Render interactive map
 
-## * Running the Project
+---
+
+##  Running the Project
 
 Clone
 
@@ -160,11 +167,13 @@ Run
 
 streamlit run app/main.py
 
+---
 
 ## Author
 
 Karim Tantawy
 AI & Data Engineer
 Berlin / Egypt
+
 
 
