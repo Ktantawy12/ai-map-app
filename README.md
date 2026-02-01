@@ -85,31 +85,32 @@ Features:
 
 ## Technologies
 
-Python 
+* Python 
 
-Streamlit
+* Streamlit
 
-OpenAI API (LLM orchestration)
+* OpenAI API (LLM orchestration)
 
-Mapbox API (map tiles)
+* Mapbox API (map tiles)
 
-OpenStreetMap (geodata source)
+* OpenStreetMap (geodata source)
 
-FastMCP (tool server framework)
+* FastMCP (tool server framework)
 
-Folium (map visualization)
+* Folium (map visualization)
 
-GeoJSON
+* GeoJSON
 
 ---
 
 
 ## Data Sources
   
-Source	           Purpose
-OpenStreetMap	  Geospatial features
-OpenAI API	     Natural language parsing & planning
-Mapbox	           Interactive map tiles
+| Source | Purpose |
+|--------|---------|
+| OpenStreetMap | Geospatial features |
+| OpenAI API | Natural language parsing |
+| Mapbox | Interactive tiles |
 
 ---
 
@@ -143,29 +144,34 @@ Render interactive map
 
 ---
 
-##  Running the Project
+## Installation
 
-Clone
-
+```bash
 git clone https://github.com/Ktantawy12/ai-map-app.git
 cd ai-map-app
-
-Setup
-
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
+```
 
-Environment Variables
+---
 
-Create .env:
+##  Environment Variables
 
+Create a `.env` file:
+
+```
 OPENAI_API_KEY=your_key
 MAPBOX_API_KEY=your_key
+```
 
-Run
+---
 
+## ▶ Run
+
+```bash
 streamlit run app/main.py
+```
 
 ---
 
@@ -174,6 +180,7 @@ streamlit run app/main.py
 Karim Tantawy
 AI & Data Engineer
 Berlin / Egypt
+
 
 
 
