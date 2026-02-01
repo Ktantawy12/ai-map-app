@@ -1,10 +1,10 @@
-AI Map Agent
+# AI Map Agent
 
-* Overview
+## * Overview
 
   
 
-* System Architecture
+## * System Architecture
 
 The system separates reasoning from execution.
 
@@ -14,25 +14,12 @@ MCP Tool Layer ->
 Geospatial Processing ->
 Streamlit Map Interface
 
-* Architectural Principles
 
-Tool-based modular design
-
-Deterministic geospatial operations
-
-Explicit schema-driven LLM parsing
-
-Clean separation of concerns
-
-Extendable to multi-tool workflows
-
-* Core Components
+## * Core Components
   
-1 LLM Reasoning Layer
+### 1 LLM Reasoning Layer
 
-The LLM is responsible only for:
-
-Extracting:
+The LLM is responsible for extracting:
 
 layer_type
 
@@ -48,7 +35,7 @@ The model does not perform geospatial computation directly.
 
 This prevents hallucination and enforces execution correctness.
 
-2 MCP Tool Server
+### 2 MCP Tool Server
 
 The project exposes geospatial tools via MCP:
 
@@ -70,7 +57,7 @@ Can be reused across agents
 
 This design mirrors real-world AI agent orchestration systems.
 
-3 Geospatial Pipeline
+### 3 Geospatial Pipeline
 
 Address → Coordinates
 
@@ -80,17 +67,14 @@ Polygon → Bounding Box
 
 Bounding Box → OSM Feature Query
 
-Feature Truncation (User-Controlled Limit)
-
 Spatial logic is deterministic and separated from the LLM.
 
-4 Frontend (Streamlit)
+### 4 Frontend (Streamlit)
 
 Features:
 
 Interactive natural language input
 
-Adjustable result slider
 
 Map rendering via Folium
 
@@ -98,12 +82,8 @@ Debug visibility (agent steps)
 
 Polygon visualization
 
-Feature markers with popups
 
-
-
-
-* Technologies
+## * Technologies
 
 Python 
 
@@ -123,15 +103,16 @@ GeoJSON
 
 
 
-* Data Sources
+## * Data Sources
+  
 Source	           Purpose
 OpenStreetMap	  Geospatial features
 OpenAI API	     Natural language parsing & planning
 Mapbox	           Interactive map tiles
 
-* Challenges & Solutions
+## * Challenges & Solutions
 
-* Example Workflow
+## * Example Workflow
 
 Input:
 
@@ -153,16 +134,17 @@ Buffer → GeoJSON polygon
 
 Bounding box → OSM query
 
-Limit → 5 results
-
 Render interactive map
 
-* Running the Project
+## * Running the Project
+
 Clone
+
 git clone https://github.com/Ktantawy12/ai-map-app.git
 cd ai-map-app
 
 Setup
+
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
@@ -175,12 +157,14 @@ OPENAI_API_KEY=your_key
 MAPBOX_API_KEY=your_key
 
 Run
+
 streamlit run app/main.py
 
 
-Author
+## Author
 
 Karim Tantawy
 AI & Data Engineer
 Berlin / Egypt
+
 
