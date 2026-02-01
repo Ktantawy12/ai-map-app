@@ -11,6 +11,7 @@ The system parses intent using an LLM, delegates execution to structured tools v
 ---
 ## Demo Video
 
+https://github.com/Ktantawy12/ai-map-app/releases/tag/v1.0.0
 ---
 
 ## System Architecture
@@ -208,6 +209,7 @@ streamlit run app/main.py
 
 Karim Tantawy  
 AI & Data Engineer  
+
 
 
 
