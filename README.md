@@ -1,209 +1,238 @@
-AI Map Agent – Geospatial Intelligence Assistant
+AI Map Agent
+LLM-Orchestrated Geospatial Intelligence System
 
-An AI-powered geospatial assistant that combines Large Language Models with real-world mapping data to answer spatial questions, retrieve geodata layers, and perform geographic analysis such as buffering and feature extraction.
+A modular AI-powered geospatial agent that translates natural language into structured spatial operations, executes geoprocessing pipelines via tool orchestration, and renders interactive map-based insights.
 
- Project Overview
+This project demonstrates applied LLM reasoning, tool-based architecture, spatial computation, and production-aware engineering practices.
 
-AI Map Agent enables users to:
+* System Architecture
 
-Convert natural language into spatial queries
-
-Geocode addresses into coordinates
-
-Create geographic buffers
-
-Retrieve geospatial features (e.g., schools, hospitals, restaurants)
-
-Visualize results interactively on a map
-
-Control number of returned results via UIArchitecture
-
-The system follows a modular tool-driven architecture:
+The system separates reasoning from execution.
 
 User Query
-     ↓
-LLM (Query Parsing & Planning)
-     ↓
+    ↓
+  LLM 
+    ↓
 MCP Tool Layer
-     ↓
+    ↓
 Geospatial Processing
-     ↓
-Streamlit UI Visualization
+    ↓
+Streamlit Map Interface
 
-Core Components
+* Architectural Principles
 
-LLM Layer – Parses user intent into structured tool calls
+Tool-based modular design
 
-MCP Server – Exposes geospatial tools as callable functions
+Deterministic geospatial operations
 
-Geospatial Tools
+Explicit schema-driven LLM parsing
 
-Geocoding
+Clean separation of concerns
 
-Buffer creation
+Extendable to multi-tool workflows
 
-Layer retrieval (OpenStreetMap)
+* Core Components
+1 LLM Reasoning Layer
 
-Streamlit Frontend – Interactive UI & map rendering
+The LLM is responsible only for:
 
-🛠️ Technologies Used
+Extracting:
 
-Python 3.11+
+layer_type
+
+location
+
+radius_km
+
+result_limit
+
+Constructing structured tool calls
+
+The model does not perform geospatial computation directly.
+
+This prevents hallucination and enforces execution correctness.
+
+2 MCP Tool Server
+
+The project exposes geospatial tools via MCP:
+
+geocode_address_tool
+
+buffer_point_tool
+
+retrieve_geodata_layer_tool
+
+Each tool:
+
+Has a defined schema
+
+Is independently testable
+
+Returns structured outputs
+
+Can be reused across agents
+
+This design mirrors real-world AI agent orchestration systems.
+
+3 Geospatial Pipeline
+
+Address → Coordinates
+
+Coordinates → Buffer (GeoJSON Polygon)
+
+Polygon → Bounding Box
+
+Bounding Box → OSM Feature Query
+
+Feature Truncation (User-Controlled Limit)
+
+Spatial logic is deterministic and separated from the LLM.
+
+4 Frontend (Streamlit)
+
+Features:
+
+Interactive natural language input
+
+Adjustable result slider
+
+Map rendering via Folium
+
+Debug visibility (agent steps)
+
+Polygon visualization
+
+Feature markers with popups
+
+4. Engineering Highlights
+✔ Modular Tool Design
+
+Clear separation between:
+
+Reasoning
+
+Data retrieval
+
+Spatial transformation
+
+Presentation
+
+✔ Deterministic Spatial Logic
+
+LLM never computes geometry.
+All buffers and bounding boxes are calculated programmatically.
+
+✔ Extensibility
+
+New tools (routing, polygon search, heatmaps) can be added without changing core architecture.
+
+✔ API Key Security
+
+.env excluded from Git tracking
+
+Environment-based configuration
+
+No secrets committed
+
+✔ Clean Repository Structure
+
+Virtual environment excluded
+
+Dependency file provided
+
+Minimal footprint
+
+* Technologies
+
+Python 
 
 Streamlit
 
-OpenAI API
+OpenAI API (LLM orchestration)
 
-Mapbox API
+Mapbox API (map tiles)
 
-OpenStreetMap (OSM)
+OpenStreetMap (geodata source)
 
-FastMCP
+FastMCP (tool server framework)
+
+Folium (map visualization)
 
 GeoJSON
 
-Requests / Geospatial utilities
+* Data Sources
+Source	           Purpose
+OpenStreetMap	  Geospatial features
+OpenAI API	     Natural language parsing & planning
+Mapbox	           Interactive map tiles
 
-🔍 Features
-1️⃣ Natural Language Spatial Queries
+* Challenges & Solutions
 
-Users can ask:
+* Example Workflow
 
-“Find 10 restaurants within 2km of Alexanderplatz”
+Input:
 
-The LLM:
+“Find 5 hospitals within 2km of Potsdamer Platz.”
 
-Extracts location
+Execution:
 
-Determines radius
+LLM parses:
 
-Identifies layer type
+layer_type: hospital
 
-Controls result count
+radius_km: 2
 
-2️⃣ Geocoding Tool
+location: Potsdamer Platz
 
-Converts address → latitude & longitude.
+Geocode → Coordinates
 
-3️⃣ Buffer Tool
+Buffer → GeoJSON polygon
 
-Creates a GeoJSON polygon around a coordinate with configurable radius (km).
+Bounding box → OSM query
 
-4️⃣ Geodata Retrieval
+Limit → 5 results
 
-Retrieves features from OSM within bounding box constraints.
+Render interactive map
 
-5️⃣ Result Control (UI Feature)
-
-Users can select:
-
-Number of returned results
-
-Radius size
-
-Layer type
-
-📁 Repository Structure
-ai-map-app/
-│
-├── app/
-│   ├── main.py                # Streamlit entry point
-│   ├── agent.py               # LLM orchestration
-│   ├── tools/
-│   │   ├── tool1_geocode.py
-│   │   ├── tool2_retrieve_layer.py
-│   │   └── tool3_buffer.py
-│
-├── mcp_server.py              # MCP tool server
-├── requirements.txt
-├── .env (not tracked)
-└── README.md
-
-🔑 API Configuration
-
-Create a .env file in the project root:
-
-OPENAI_API_KEY=your_openai_key
-MAPBOX_API_KEY=your_mapbox_key
-
-
-⚠️ .env is excluded from Git tracking.
-
-▶️ How to Run Locally
-1️⃣ Clone repository
+* Running the Project
+Clone
 git clone https://github.com/Ktantawy12/ai-map-app.git
 cd ai-map-app
 
-2️⃣ Create virtual environment
+Setup
 python -m venv venv
 source venv/bin/activate
-
-3️⃣ Install dependencies
 pip install -r requirements.txt
 
-4️⃣ Run application
+Environment Variables
+
+Create .env:
+
+OPENAI_API_KEY=your_key
+MAPBOX_API_KEY=your_key
+
+Run
 streamlit run app/main.py
 
-📊 Data Sources
 
-OpenStreetMap (OSM) for geospatial features
+* This project demonstrates:
 
-OpenAI API for LLM-based parsing and planning
+Applied LLM tool orchestration
 
-Mapbox for map visualization
+Structured reasoning over free text
 
-🧩 Design Decisions
-Tool-Based Architecture
+Deterministic spatial computation
 
-Separated reasoning (LLM) from execution (geospatial tools).
+Clean modular architecture
 
-This ensures:
+Secure API handling
 
-Modularity
+Production-aware engineering discipline
 
-Extensibility
+It goes beyond simple LLM prompting and shows understanding of how to build real-world AI systems that integrate external tools safely and predictably.
 
-Easy debugging
-
-Clear separation of concerns
-
-MCP Integration
-
-Tools are exposed via MCP, enabling structured function calling from the LLM.
-
-Stateless Design
-
-Each request is processed independently for clarity and reproducibility.
-
-⚠️ Challenges & Solutions
-1. Natural Language Ambiguity
-
-Handled via structured tool schema and controlled parsing.
-
-2. Bounding Box Accuracy
-
-Implemented buffer-to-bbox conversion to ensure correct OSM queries.
-
-3. API Key Security
-
-Excluded .env from version control and enforced local loading.
-
-4. Large Repo Size
-
-Removed venv/ and unnecessary files to ensure clean submission.
-
-📹 Demo Video
-
-A short demo video is attached in this repository README (see below).
-
-
-
-
-👤 Author
+Author
 
 Karim Tantawy
 AI & Data Engineer
 Berlin / Egypt
-
-
-
