@@ -1,22 +1,17 @@
 AI Map Agent
-LLM-Orchestrated Geospatial Intelligence System
 
-A modular AI-powered geospatial agent that translates natural language into structured spatial operations, executes geoprocessing pipelines via tool orchestration, and renders interactive map-based insights.
+* Overview
 
-This project demonstrates applied LLM reasoning, tool-based architecture, spatial computation, and production-aware engineering practices.
+  
 
 * System Architecture
 
 The system separates reasoning from execution.
 
-User Query
-    ↓
-  LLM 
-    ↓
-MCP Tool Layer
-    ↓
-Geospatial Processing
-    ↓
+User Query ->
+  LLM ->
+MCP Tool Layer ->
+Geospatial Processing ->
 Streamlit Map Interface
 
 * Architectural Principles
@@ -32,6 +27,7 @@ Clean separation of concerns
 Extendable to multi-tool workflows
 
 * Core Components
+  
 1 LLM Reasoning Layer
 
 The LLM is responsible only for:
@@ -104,43 +100,8 @@ Polygon visualization
 
 Feature markers with popups
 
-4. Engineering Highlights
-✔ Modular Tool Design
 
-Clear separation between:
 
-Reasoning
-
-Data retrieval
-
-Spatial transformation
-
-Presentation
-
-✔ Deterministic Spatial Logic
-
-LLM never computes geometry.
-All buffers and bounding boxes are calculated programmatically.
-
-✔ Extensibility
-
-New tools (routing, polygon search, heatmaps) can be added without changing core architecture.
-
-✔ API Key Security
-
-.env excluded from Git tracking
-
-Environment-based configuration
-
-No secrets committed
-
-✔ Clean Repository Structure
-
-Virtual environment excluded
-
-Dependency file provided
-
-Minimal footprint
 
 * Technologies
 
@@ -159,6 +120,8 @@ FastMCP (tool server framework)
 Folium (map visualization)
 
 GeoJSON
+
+
 
 * Data Sources
 Source	           Purpose
@@ -215,24 +178,9 @@ Run
 streamlit run app/main.py
 
 
-* This project demonstrates:
-
-Applied LLM tool orchestration
-
-Structured reasoning over free text
-
-Deterministic spatial computation
-
-Clean modular architecture
-
-Secure API handling
-
-Production-aware engineering discipline
-
-It goes beyond simple LLM prompting and shows understanding of how to build real-world AI systems that integrate external tools safely and predictably.
-
 Author
 
 Karim Tantawy
 AI & Data Engineer
 Berlin / Egypt
+
